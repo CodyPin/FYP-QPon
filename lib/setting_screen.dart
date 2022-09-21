@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
         child: Text(
-          "You are at the HOME PAGE",
+          "You are at the SETTING PAGE",
           style: TextStyle(
             color: Colors.green[900],
             fontSize: 45,

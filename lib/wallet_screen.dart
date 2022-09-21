@@ -10,18 +10,48 @@ class WalletScreen extends StatefulWidget {
 class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xffC4DFCB),
-      child: Center(
-        child: Text(
-          "You are at the WALLET PAGE",
-          style: TextStyle(
-            color: Colors.green[900],
-            fontSize: 45,
-            fontWeight: FontWeight.w500,
-          ),
+    return Scaffold(
+        body: Column(
+      children: [
+        const Text('Your Wallet'),
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.card_giftcard),
+                  ),
+                  const Text('Coupon'),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.card_giftcard),
+                  ),
+                  const Text('Stamps'),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.card_giftcard),
+                  ),
+                  const Text('Your ID'),
+                ],
+              ),
+            ),
+          ],
         ),
-      ),
-    );
+      ],
+    ));
   }
 }

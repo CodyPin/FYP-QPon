@@ -10,17 +10,38 @@ class CouponScreen extends StatefulWidget {
 class _CouponScreenState extends State<CouponScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: const Color(0xffC4DFCB),
-      child: Center(
-        child: Text(
-          "You are at the COUPON PAGE",
-          style: TextStyle(
-            color: Colors.green[900],
-            fontSize: 45,
-            fontWeight: FontWeight.w500,
+    return Scaffold(
+      body: Column(
+        children: [
+          const Text(
+            'Your Coupons',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {},
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: SizedBox(
+                        height: 100,
+                        child: Center(
+                          child: Text('Coupon Example${index + 1}'),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
