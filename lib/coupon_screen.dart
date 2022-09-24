@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocketbase/pocketbase.dart';
 
 class CouponScreen extends StatefulWidget {
   const CouponScreen({Key? key}) : super(key: key);

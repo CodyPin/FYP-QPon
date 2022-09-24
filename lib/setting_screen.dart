@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qpon/login_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -10,17 +11,19 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(
-          "You are at the SETTING PAGE",
-          style: TextStyle(
-            color: Colors.green[900],
-            fontSize: 45,
-            fontWeight: FontWeight.w500,
+    return Column(
+      children: [
+        ElevatedButton.icon(
+          onPressed: () {
+            client.authStore.clear();
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size.fromHeight(40),
           ),
+          icon: const Icon(Icons.arrow_back),
+          label: const Text('Sign Out'),
         ),
-      ),
+      ],
     );
   }
 }

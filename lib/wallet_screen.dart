@@ -13,7 +13,18 @@ class _WalletScreenState extends State<WalletScreen> {
     return Scaffold(
         body: Column(
       children: [
-        const Text('Your Wallet'),
+        const SizedBox(
+          height: 10.0,
+        ),
+        const Text(
+          'Your Wallet',
+          style: TextStyle(
+            fontSize: 25,
+          ),
+        ),
+        const SizedBox(
+          height: 10.0,
+        ),
         Row(
           children: [
             Expanded(

@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import './home_screen.dart';
-import './coupon_screen.dart';
-import './wallet_screen.dart';
-import './setting_screen.dart';
+import 'home_screen.dart';
+import 'coupon_screen.dart';
+import 'wallet_screen.dart';
+import 'setting_screen.dart';
+import 'login_screen.dart';
+
+import 'package:pocketbase/pocketbase.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Layout(),
-    );
-  }
+  runApp(
+    const Layout(),
+  );
 }
 
 class Layout extends StatefulWidget {
@@ -26,6 +19,8 @@ class Layout extends StatefulWidget {
   @override
   State<Layout> createState() => _LayoutState();
 }
+
+final navigationKey = GlobalKey<NavigatorState>();
 
 class _LayoutState extends State<Layout> {
   int pageIndex = 0;
@@ -46,8 +41,9 @@ class _LayoutState extends State<Layout> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigationKey,
       theme: ThemeData(
-        fontFamily: 'IndieFlower',
+        fontFamily: 'Merriweather',
         scaffoldBackgroundColor: Colors.orange[50],
       ),
       home: Scaffold(
@@ -62,7 +58,18 @@ class _LayoutState extends State<Layout> {
           ),
           centerTitle: true,
         ),
-        body: pages[pageIndex],
+        body: StreamBuilder(
+          stream: client.authStore.onChange,
+          builder: (context, snapshot) {
+            if (client.authStore.isValid) {
+              // If user logged in
+              return pages[pageIndex];
+            } else {
+              // else we are in the login page
+              return const LoginScreen();
+            }
+          },
+        ),
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
