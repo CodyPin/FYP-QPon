@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pocketbase/pocketbase.dart';
-
-final client = PocketBase('http://10.0.2.2:8090');
+import 'main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

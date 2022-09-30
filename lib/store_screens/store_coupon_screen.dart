@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pocketbase/pocketbase.dart';
-import 'package:qpon/login_screen.dart';
+import '../main.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class StoreCouponScreen extends StatefulWidget {
+  const StoreCouponScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<StoreCouponScreen> createState() => _StoreCouponState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _StoreCouponState extends State<StoreCouponScreen> {
   @override
   Widget build(BuildContext context) {
     final username = client.authStore.model.profile.getStringValue('name');

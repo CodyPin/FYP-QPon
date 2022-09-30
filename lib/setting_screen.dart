@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qpon/login_screen.dart';
+import 'main.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -13,16 +13,20 @@ class _SettingScreenState extends State<SettingScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton.icon(
-          onPressed: () {
-            client.authStore.clear();
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size.fromHeight(40),
+        if (client.authStore.isValid)
+          ElevatedButton.icon(
+            onPressed: () async {
+              preLoginPagesIndex = 0;
+              storePagesIndex = 0;
+              customerPagesIndex = 0;
+              client.authStore.clear();
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size.fromHeight(40),
+            ),
+            icon: const Icon(Icons.arrow_back),
+            label: const Text('Sign Out'),
           ),
-          icon: const Icon(Icons.arrow_back),
-          label: const Text('Sign Out'),
-        ),
       ],
     );
   }
