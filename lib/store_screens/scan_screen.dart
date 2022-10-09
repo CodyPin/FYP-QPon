@@ -8,10 +8,23 @@ class ScanScreen extends StatefulWidget {
   State<ScanScreen> createState() => _ScanScreenState();
 }
 
+String storeId = "";
+String storeName = "";
+
 class _ScanScreenState extends State<ScanScreen> {
+  Future fetchStoreData() async {
+    final response = await client.records.getList('stores',
+        page: 1,
+        perPage: 1,
+        filter: 'owner = "${client.authStore.model.profile.id}"');
+    storeId = response.items[0].id;
+    storeName = response.items[0].getStringValue('name');
+  }
+
   @override
   Widget build(BuildContext context) {
     final username = client.authStore.model.profile.getStringValue('name');
+    fetchStoreData();
 
     return Center(
       child: Text(

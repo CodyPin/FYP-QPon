@@ -3,7 +3,7 @@ import 'customer_screens/coupon_screen.dart';
 import 'customer_screens/home_screen.dart';
 import 'customer_screens/wallet_screen.dart';
 import 'store_screens/scan_screen.dart';
-import 'store_screens/store_coupon_screen.dart';
+import 'store_screens/store_coupon_list_screen.dart';
 import 'setting_screen.dart';
 import 'login_screen.dart';
 
@@ -13,17 +13,19 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future main() async {
   await dotenv.load(fileName: ".env");
   runApp(
-    const Layout(),
+    const MyApp(),
   );
 }
 
-final client = PocketBase('http://${dotenv.env['HOST']}:${dotenv.env['PORT']}');
+final backendAddress = 'http://${dotenv.env['HOST']}:${dotenv.env['PORT']}';
 
-class Layout extends StatefulWidget {
-  const Layout({Key? key}) : super(key: key);
+final client = PocketBase(backendAddress);
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<Layout> createState() => _LayoutState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 final navigationKey = GlobalKey<NavigatorState>();
@@ -32,7 +34,7 @@ int preLoginPagesIndex = 0;
 int storePagesIndex = 0;
 int customerPagesIndex = 0;
 
-class _LayoutState extends State<Layout> {
+class _MyAppState extends State<MyApp> {
   final preLoginPages = [
     const LoginScreen(),
     const SettingScreen(),
@@ -47,7 +49,8 @@ class _LayoutState extends State<Layout> {
 
   final storePages = [
     const ScanScreen(),
-    const StoreCouponScreen(),
+    const StoreCouponListScreen(),
+    const SettingScreen()
   ];
 
   void _onPreLoginTapped(int index) {
