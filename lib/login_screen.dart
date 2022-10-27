@@ -5,10 +5,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenstate();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenstate extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -27,6 +27,16 @@ class _LoginScreenstate extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const Text(
+            "Login",
+            style: TextStyle(
+              fontSize: 40,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
           TextField(
             controller: emailController,
             cursorColor: Colors.orange,
@@ -53,7 +63,15 @@ class _LoginScreenstate extends State<LoginScreen> {
           ),
           ElevatedButton.icon(
             onPressed: () async {
-              await signIn();
+              var signInOk = await signIn();
+              // if sign in failed, show error message
+              if (!signInOk) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Login failed'),
+                  ),
+                );
+              }
             },
             icon: const Icon(
               Icons.lock_open,
