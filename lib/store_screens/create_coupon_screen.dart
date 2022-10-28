@@ -5,7 +5,7 @@ import '../main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mime/mime.dart';
-import 'package:path/path.dart';
+import '../utils/color.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
@@ -43,18 +43,6 @@ class _CreateCouponState extends State<CreateCouponScreen> {
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
-  }
-
-  MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
-    getColor(Set<MaterialState> states) {
-      if (states.contains(MaterialState.pressed)) {
-        return colorPressed;
-      } else {
-        return color;
-      }
-    }
-
-    return MaterialStateProperty.resolveWith(getColor);
   }
 
   Future<bool> createCoupon() async {

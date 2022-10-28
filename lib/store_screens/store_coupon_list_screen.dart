@@ -22,7 +22,6 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
       final response = await client.records.getList('coupons',
           page: 1, perPage: 100, filter: 'store = "$storeId"');
       coupons = response.items.toList();
-      print(coupons);
       return true;
     } catch (e) {
       print(e);
@@ -66,7 +65,8 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
                                 image: Image.network(
                                   imageURL,
                                   errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(Icons.card_giftcard, size: 100);
+                                    return const Icon(Icons.card_giftcard,
+                                        size: 100);
                                   },
                                 ),
                               ),
@@ -85,8 +85,10 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
                                     tag: coupons[index].id,
                                     child: Image.network(
                                       imageURL,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return const Icon(Icons.card_giftcard, size: 100);
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const Icon(Icons.card_giftcard,
+                                            size: 100);
                                       },
                                     ),
                                   ),
@@ -127,10 +129,11 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CreateCouponScreen(),
-              ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateCouponScreen(),
+            ),
+          );
         },
         child: const Icon(Icons.add),
       ),
