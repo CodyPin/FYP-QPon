@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:qpon/store_screens/scan_screen.dart';
 import '../main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:mime/mime.dart';
 import '../utils/color.dart';
 import 'package:http/http.dart' as http;
@@ -20,11 +19,11 @@ final List<String> discountType = <String>['cash', 'percentage'];
 
 class _CreateCouponState extends State<CreateCouponScreen> {
   final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
   final amountController = TextEditingController();
   String selectedDiscountType = discountType.first;
 
-  DateTime date = DateTime.now();
-  DateTime? expiryDate;
+  DateTime expiryDate = DateTime.now();
 
   bool isActive = false;
   String isActiveText = 'No';
@@ -46,19 +45,20 @@ class _CreateCouponState extends State<CreateCouponScreen> {
   }
 
   Future<bool> createCoupon() async {
-
     try {
       final body = <String, dynamic>{
         'name': nameController.text.trim(),
+        'description': descriptionController.text.trim(),
         'amount': amountController.text.trim(),
         'expire_date': expiryDate.toString(),
         'is_active': isActive,
+        'image': '${nameController.text.trim()}.png',
         'store': storeId,
         'discount_type': selectedDiscountType
       };
 
       if (image?.path != null) {
-        final record = await client.records.create(
+        await client.records.create(
           'coupons',
           body: body,
           files: [
@@ -70,7 +70,7 @@ class _CreateCouponState extends State<CreateCouponScreen> {
           ],
         );
       } else {
-        final record = await client.records.create(
+        await client.records.create(
           'coupons',
           body: body,
         );
@@ -102,6 +102,15 @@ class _CreateCouponState extends State<CreateCouponScreen> {
             decoration: const InputDecoration(
               icon: Icon(Icons.abc),
               labelText: 'Name of your coupon',
+            ),
+          ),
+          TextField(
+            controller: descriptionController,
+            cursorColor: Colors.white,
+            textInputAction: TextInputAction.next,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.abc),
+              labelText: 'Description of your coupon',
             ),
           ),
           Row(
@@ -152,27 +161,26 @@ class _CreateCouponState extends State<CreateCouponScreen> {
               border: Border.all(color: Colors.blue),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
                   onPressed: () async {
                     DateTime? newDate = await showDatePicker(
                       context: context,
-                      initialDate: date,
-                      firstDate: DateTime(date.year),
-                      lastDate: DateTime(date.year + 10),
+                      initialDate: expiryDate,
+                      firstDate: DateTime(expiryDate.year),
+                      lastDate: DateTime(expiryDate.year + 10),
                     );
                     if (newDate == null) return;
                     setState(() {
-                      date = newDate;
                       expiryDate = newDate;
                     });
                   },
                   child: const Text('Select expiry date'),
                 ),
                 Text(
-                  'Expiry Date: ${date.year}/${date.month}/${date.day}',
+                  'Expiry Date: ${expiryDate.year}/${expiryDate.month}/${expiryDate.day}',
                 ),
               ],
             ),
