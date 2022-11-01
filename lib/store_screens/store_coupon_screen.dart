@@ -4,6 +4,7 @@ import 'package:pocketbase/src/dtos/record_model.dart';
 import 'package:intl/intl.dart';
 import 'package:qpon/store_screens/edit_coupon_screen.dart';
 import '../main.dart';
+import '../qrcode_screen.dart';
 import '../utils/color.dart';
 
 class StoreCouponScreen extends StatelessWidget {
@@ -161,43 +162,66 @@ class StoreCouponScreen extends StatelessWidget {
               ],
             ),
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        EditCouponScreen(coupon: coupon, initImage: image),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          EditCouponScreen(coupon: coupon, initImage: image),
+                    ),
+                  );
+                },
+                style: ButtonStyle(
+                  foregroundColor: getColor(Colors.white, Colors.blue),
+                  backgroundColor: getColor(Colors.blue, Colors.white),
+                ),
+                child: const Text(
+                  'Edit Coupon',
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return alert;
+                    },
+                  );
+                },
+                style: ButtonStyle(
+                  foregroundColor: getColor(Colors.white, Colors.red),
+                  backgroundColor: getColor(Colors.red, Colors.white),
+                ),
+                child: const Text(
+                  'Delete Coupon?',
+                ),
+              ),
+            ],
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QRCodeScreen(
+                    title: 'Your Coupon QRCode',
+                    qrcode: coupon.getStringValue('id'),
                   ),
-                );
-              },
-              style: ButtonStyle(
-                foregroundColor: getColor(Colors.white, Colors.blue),
-                backgroundColor: getColor(Colors.blue, Colors.white),
-              ),
-              child: const Text(
-                'Edit Coupon',
-              ),
+                ),
+              );
+            },
+            style: ButtonStyle(
+              foregroundColor: getColor(Colors.white, Colors.black),
+              backgroundColor: getColor(Colors.black, Colors.white),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return alert;
-                  },
-                );
-              },
-              style: ButtonStyle(
-                foregroundColor: getColor(Colors.white, Colors.red),
-                backgroundColor: getColor(Colors.red, Colors.white),
-              ),
-              child: const Text(
-                'Delete Coupon?',
-              ),
+            child: const Text(
+              'QR code',
             ),
-          ])
+          ),
         ],
       ),
     );
