@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import '../qrcode_screen.dart';
 import '../main.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -27,7 +28,6 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final username = client.authStore.model.profile.getStringValue('name');
     fetchStoreData();
 
     return Scaffold(
@@ -72,7 +72,21 @@ class _ScanScreenState extends State<ScanScreen> {
         allowDuplicates: true,
         controller: cameraController,
         onDetect: _foundQRCode,
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QRCodeScreen(
+                title: 'Your Account QRCode',
+                qrcode: client.authStore.model.profile.getStringValue('id'),
+              ),
+            ),
+          );
+        },
+        child: const Icon(Icons.qr_code),
+      ),
     );
   }
 

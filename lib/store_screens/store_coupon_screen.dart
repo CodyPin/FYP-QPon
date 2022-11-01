@@ -27,7 +27,7 @@ class StoreCouponScreen extends StatelessWidget {
         foregroundColor: getColor(Colors.white, Colors.red),
         backgroundColor: getColor(Colors.red, Colors.white),
       ),
-      onPressed: () async{
+      onPressed: () async {
         try {
           await client.records.delete('coupons', coupon.id);
         } catch (e) {
@@ -161,45 +161,43 @@ class StoreCouponScreen extends StatelessWidget {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children:[
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditCouponScreen(coupon: coupon, initImage: image),
-                    ),
-                  );
-                },
-                style: ButtonStyle(
-                  foregroundColor: getColor(Colors.white, Colors.blue),
-                  backgroundColor: getColor(Colors.blue, Colors.white),
-                ),
-                child: const Text(
-                  'Edit Coupon',
-                ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        EditCouponScreen(coupon: coupon, initImage: image),
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                foregroundColor: getColor(Colors.white, Colors.blue),
+                backgroundColor: getColor(Colors.blue, Colors.white),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return alert;
-                    },
-                  );
-                },
-                style: ButtonStyle(
-                  foregroundColor: getColor(Colors.white, Colors.red),
-                  backgroundColor: getColor(Colors.red, Colors.white),
-                ),
-                child: const Text(
-                  'Delete Coupon?',
-                ),
+              child: const Text(
+                'Edit Coupon',
               ),
-            ]
-          )
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return alert;
+                  },
+                );
+              },
+              style: ButtonStyle(
+                foregroundColor: getColor(Colors.white, Colors.red),
+                backgroundColor: getColor(Colors.red, Colors.white),
+              ),
+              child: const Text(
+                'Delete Coupon?',
+              ),
+            ),
+          ])
         ],
       ),
     );
