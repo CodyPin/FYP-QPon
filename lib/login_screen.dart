@@ -98,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
         password,
       );
     } catch (e) {
+      print(e);
       return false;
     }
     return true;
