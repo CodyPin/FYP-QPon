@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'customer_screens/coupon_screen.dart';
+import 'customer_screens/coupon_list_screen.dart';
 import 'customer_screens/home_screen.dart';
 import 'customer_screens/wallet_screen.dart';
 import 'store_screens/scan_screen.dart';
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
 
   final customerPages = [
     const HomeScreen(),
-    const CouponScreen(),
+    const CouponListScreen(),
     const WalletScreen(),
     const SettingScreen()
   ];
