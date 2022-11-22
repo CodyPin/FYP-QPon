@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:qpon/store_screens/scan_screen.dart';
 import '../main.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:mime/mime.dart';
 import '../utils/color.dart';
 import 'package:http/http.dart' as http;
@@ -32,10 +33,15 @@ class _CreateCouponState extends State<CreateCouponScreen> {
 
   Future<void> _pickImage(source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
+      final tempImage = await ImagePicker().pickImage(source: source);
+      if (tempImage == null) return;
 
-      final imageTemporary = File(image.path);
+      final imageTemporary = File(tempImage.path);
+
+      Directory tempDir = await getTemporaryDirectory();
+      String tempPath = tempDir.path;
+      print(tempPath);
+
       setState(() {
         this.image = imageTemporary;
       });
@@ -54,26 +60,25 @@ class _CreateCouponState extends State<CreateCouponScreen> {
         'is_active': isActive,
         'image': '${nameController.text.trim()}.png',
         'store': storeId,
-        'discount_type': selectedDiscountType
+        'discount_type': selectedDiscountType,
+        'use_count': 0,
       };
-
       if (image?.path != null) {
-        await client.records.create(
-          'coupons',
+        final multipartImage = await http.MultipartFile.fromPath(
+          'image',
+          image!.path,
+          filename: image!.path,
+        );
+        await client.collection('coupons').create(
           body: body,
           files: [
-            http.MultipartFile.fromString(
-              'image',
-              'png',
-              filename: image!.path,
-            ),
+            multipartImage,
           ],
         );
       } else {
-        await client.records.create(
-          'coupons',
-          body: body,
-        );
+        await client.collection('coupons').create(
+              body: body,
+            );
       }
     } on Exception catch (e) {
       print(e);
@@ -250,19 +255,19 @@ class _CreateCouponState extends State<CreateCouponScreen> {
           ElevatedButton(
             onPressed: () async {
               var isCreated = await createCoupon();
-              if (!isCreated){
+              if (!isCreated) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Coupon creation failed'),
                   ),
                 );
-              }
-              else{
+              } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Coupon created successfully'),
                   ),
                 );
+                Navigator.pop(context);
               }
             },
             style: ButtonStyle(

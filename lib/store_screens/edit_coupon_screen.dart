@@ -48,8 +48,7 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
       };
 
       if (image?.path != null) {
-        await client.records.update(
-          'coupons',
+        await client.collection('coupons').update(
           widget.coupon.id,
           body: body,
           files: [
@@ -61,8 +60,7 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
           ],
         );
       } else {
-        await client.records.update(
-          'coupons',
+        await client.collection('coupons').update(
           widget.coupon.id,
           body: body,
         );

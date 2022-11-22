@@ -18,8 +18,9 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
 
   Future<bool> fetchStoreCoupons() async {
     try {
-      final response = await client.records.getList('coupons',
-          page: 1, perPage: 100, filter: 'store = "$storeId"');
+      final response = await client
+          .collection('coupons')
+          .getList(page: 1, perPage: 100, filter: 'store = "$storeId"');
       coupons = response.items.toList();
       return true;
     } catch (e) {
@@ -48,7 +49,7 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
                   child: ListView.builder(
                     itemCount: coupons.length,
                     itemBuilder: (context, index) {
-                      final imageURL = client.records
+                      final imageURL = client
                           .getFileUrl(coupons[index],
                               coupons[index].getStringValue('image'))
                           .toString();
@@ -80,15 +81,20 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Hero(
-                                    tag: coupons[index].id,
-                                    child: Image.network(
-                                      imageURL,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return const Icon(Icons.card_giftcard,
-                                            size: 100);
-                                      },
+                                  ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      maxHeight: 200.0,
+                                    ),
+                                    child: Hero(
+                                      tag: coupons[index].id,
+                                      child: Image.network(
+                                        imageURL,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return const Icon(Icons.card_giftcard,
+                                              size: 100);
+                                        },
+                                      ),
                                     ),
                                   ),
                                   Text(

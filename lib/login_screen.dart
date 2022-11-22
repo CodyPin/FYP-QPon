@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qpon/register_screen.dart';
 import 'main.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -62,6 +63,11 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 20,
           ),
           ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
             onPressed: () async {
               var signInOk = await signIn();
               // if sign in failed, show error message
@@ -82,6 +88,42 @@ class _LoginScreenState extends State<LoginScreen> {
               style: TextStyle(fontSize: 24),
             ),
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Don't have an account?",
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+              ),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(90, 5),
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const RegisterScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.arrow_circle_right,
+                  size: 10,
+                ),
+                label: const Text(
+                  'Register',
+                  style: TextStyle(fontSize: 10),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -93,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = passwordController.text.trim();
 
     try {
-      await client.users.authViaEmail(
+      await client.collection('users').authWithPassword(
         email,
         password,
       );

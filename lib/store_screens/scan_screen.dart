@@ -15,10 +15,10 @@ String storeName = "";
 
 class _ScanScreenState extends State<ScanScreen> {
   Future fetchStoreData() async {
-    final response = await client.records.getList('stores',
+    final response = await client.collection('stores').getList(
         page: 1,
         perPage: 1,
-        filter: 'owner = "${client.authStore.model.profile.id}"');
+        filter: 'owner = "${client.authStore.model.id}"');
     storeId = response.items[0].id;
     storeName = response.items[0].getStringValue('name');
   }
@@ -80,7 +80,7 @@ class _ScanScreenState extends State<ScanScreen> {
             MaterialPageRoute(
               builder: (context) => QRCodeScreen(
                 title: 'Your Account QRCode',
-                qrcode: client.authStore.model.profile.getStringValue('id'),
+                qrcode: client.authStore.model.getStringValue('id'),
               ),
             ),
           );

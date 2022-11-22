@@ -30,7 +30,7 @@ class StoreCouponScreen extends StatelessWidget {
       ),
       onPressed: () async {
         try {
-          await client.records.delete('coupons', coupon.id);
+          await client.collection('coupons').delete(coupon.id);
         } catch (e) {
           print(e);
         }
@@ -63,9 +63,14 @@ class StoreCouponScreen extends StatelessWidget {
             "Coupon Details",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
           ),
-          Hero(
-            tag: coupon.id,
-            child: image,
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 500.0,
+            ),
+            child: Hero(
+              tag: coupon.id,
+              child: image,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

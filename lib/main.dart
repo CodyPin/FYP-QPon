@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context, snapshot) {
             if (client.authStore.isValid) {
               // If user logged in
-              if (client.authStore.model.profile.getBoolValue("is_store")) {
+              if (client.authStore.model.getBoolValue("is_store")) {
                 // If a store is logged in
                 return storePages[storePagesIndex];
               }
@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context, snapshot) {
             if (client.authStore.isValid) {
               // If user logged in
-              if (client.authStore.model.profile.getBoolValue("is_store")) {
+              if (client.authStore.model.getBoolValue("is_store")) {
                 // If user is a store
                 return BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[

@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final username = client.authStore.model.profile.getStringValue('name');
+    final username = client.authStore.model.getStringValue('name');
 
     return Scaffold(
       body: Text(
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
             MaterialPageRoute(
               builder: (context) => QRCodeScreen(
                 title: 'Your Account QRCode',
-                qrcode: client.authStore.model.profile.getStringValue('id'),
+                qrcode: client.authStore.model.getStringValue('id'),
               ),
             ),
           );

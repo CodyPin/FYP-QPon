@@ -14,13 +14,13 @@ class CouponListScreen extends StatefulWidget {
 class _CouponListScreenState extends State<CouponListScreen> {
   List<RecordModel> coupons = [];
   List<int> couponCounts = [];
-  final userId = client.authStore.model.profile.id;
+  final userId = client.authStore.model.id;
 
   Future<bool> fetchUserCoupons() async {
     try {
       List<RecordModel> userCoupons = [];
-      final response = await client.records.getList('user_coupons',
-          page: 1, perPage: 100, filter: 'user = "$userId"');
+      final response = await client.collection('user_coupons').getList(
+          page: 1, perPage: 100, filter: 'user = "$userId"',);
       userCoupons = response.items.toList();
 
       var queryString = '';
@@ -34,8 +34,8 @@ class _CouponListScreenState extends State<CouponListScreen> {
         queryString += 'id="$couponId"';
       }
 
-      final couponsResponse = await client.records
-          .getList('coupons', page: 1, perPage: 100, filter: queryString);
+      final couponsResponse = await client.collection('coupons')
+          .getList(page: 1, perPage: 100, filter: queryString);
       coupons = couponsResponse.items.toList();
 
       return true;
@@ -65,7 +65,7 @@ class _CouponListScreenState extends State<CouponListScreen> {
                   child: ListView.builder(
                     itemCount: coupons.length,
                     itemBuilder: (context, index) {
-                      final imageURL = client.records
+                      final imageURL = client
                           .getFileUrl(coupons[index],
                               coupons[index].getStringValue('image'))
                           .toString();
