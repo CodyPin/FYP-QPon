@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qpon/utils/theme_provider.dart';
 import 'main.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -11,6 +13,8 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -29,6 +33,20 @@ class _SettingScreenState extends State<SettingScreen> {
               icon: const Icon(Icons.arrow_back),
               label: const Text('Sign Out'),
             ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Text('Dark Mode'),
+              Switch.adaptive(
+                value: themeProvider.isDarkMode,
+                onChanged: (value) {
+                  final provider = Provider.of<ThemeProvider>(context,
+                      listen: false);
+                  provider.toggleTheme(value);
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );

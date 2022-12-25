@@ -51,64 +51,6 @@ class RegisterScreen extends StatelessWidget {
               labelText: 'Confirm Password',
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              icon: Icon(Icons.password),
-              labelText: 'Store Name',
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              icon: Icon(Icons.password),
-              labelText: 'Store Address',
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              icon: Icon(Icons.password),
-              labelText: 'Store Phone Number',
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              icon: Icon(Icons.password),
-              labelText: 'Store Website',
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              icon: Icon(Icons.password),
-              labelText: 'Store Description',
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
         ],
       ),
     );
