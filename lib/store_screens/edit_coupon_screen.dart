@@ -98,198 +98,200 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
     ImageProvider initImage = widget.initImage.image;
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          const Text(
-            'Update Coupon',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          TextField(
-            controller: nameController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.abc),
-              labelText: 'Name of your coupon',
-            ),
-          ),
-          TextField(
-            controller: descriptionController,
-            cursorColor: Colors.white,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              icon: Icon(Icons.abc),
-              labelText: 'Description of your coupon',
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              DropdownButton<String>(
-                value: selectedDiscountType,
-                icon: const Icon(Icons.arrow_downward),
-                elevation: 16,
-                style: const TextStyle(color: Colors.deepPurple),
-                underline: Container(
-                  height: 2,
-                  color: Colors.deepPurpleAccent,
-                ),
-                onChanged: (String? value) {
-                  // This is called when the user selects an item.
-                  setState(() {
-                    selectedDiscountType = value!;
-                  });
-                },
-                items:
-                discountType.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Text(
+              'Update Coupon',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
               ),
-              SizedBox(
-                width: 200,
-                child: TextField(
-                  controller: amountController,
-                  cursorColor: Colors.white,
-                  textInputAction: TextInputAction.next,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.money),
-                    labelText: 'Amount',
-                  ),
-                ),
-              )
-            ],
-          ),
-          Container(
-            margin: const EdgeInsets.all(15.0),
-            padding: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue),
-              borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            TextField(
+              controller: nameController,
+              cursorColor: Colors.white,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.abc),
+                labelText: 'Name of your coupon',
+              ),
+            ),
+            TextField(
+              controller: descriptionController,
+              cursorColor: Colors.white,
+              textInputAction: TextInputAction.next,
+              decoration: const InputDecoration(
+                icon: Icon(Icons.abc),
+                labelText: 'Description of your coupon',
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    DateTime? newDate = await showDatePicker(
-                      context: context,
-                      initialDate: expiryDate,
-                      firstDate: DateTime(expiryDate.year),
-                      lastDate: DateTime(expiryDate.year + 10),
-                    );
-                    if (newDate == null) return;
+                DropdownButton<String>(
+                  value: selectedDiscountType,
+                  icon: const Icon(Icons.arrow_downward),
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
                     setState(() {
-                      expiryDate = newDate;
+                      selectedDiscountType = value!;
                     });
                   },
-                  child: const Text('Select expiry date'),
+                  items:
+                  discountType.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ),
-                Text(
-                  'Expiry Date: ${expiryDate.year}/${expiryDate.month}/${expiryDate.day}',
-                ),
+                SizedBox(
+                  width: 200,
+                  child: TextField(
+                    controller: amountController,
+                    cursorColor: Colors.white,
+                    textInputAction: TextInputAction.next,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.money),
+                      labelText: 'Amount',
+                    ),
+                  ),
+                )
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Activate now?'),
-              Switch(
-                value: isActive,
-                onChanged: (bool value) {
-                  setState(
-                        () {
-                      isActive = value;
-                      if (isActive) {
-                        isActiveText = 'Yes';
-                      } else {
-                        isActiveText = 'No';
-                      }
+            Container(
+              margin: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(3.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      DateTime? newDate = await showDatePicker(
+                        context: context,
+                        initialDate: expiryDate,
+                        firstDate: DateTime(expiryDate.year),
+                        lastDate: DateTime(expiryDate.year + 10),
+                      );
+                      if (newDate == null) return;
+                      setState(() {
+                        expiryDate = newDate;
+                      });
                     },
-                  );
-                },
+                    child: const Text('Select expiry date'),
+                  ),
+                  Text(
+                    'Expiry Date: ${expiryDate.year}/${expiryDate.month}/${expiryDate.day}',
+                  ),
+                ],
               ),
-              Text(isActiveText),
-            ],
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue),
-              borderRadius: BorderRadius.circular(10),
             ),
-            child: Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () => _pickImage(ImageSource.gallery),
-                          child: Row(
-                            children: const [
-                              Icon(Icons.image),
-                              Text('Pick from gallery'),
-                            ],
-                          )),
-                      ElevatedButton(
-                          onPressed: () => _pickImage(ImageSource.camera),
-                          child: Row(
-                            children: const [
-                              Icon(Icons.camera_alt),
-                              Text('Pick from camera'),
-                            ],
-                          )),
-                    ]),
-                Container(
-                  child: image != null
-                      ? Image.file(
-                    File(image!.path),
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  )
-                      : Image(image: initImage),
+                const Text('Activate now?'),
+                Switch(
+                  value: isActive,
+                  onChanged: (bool value) {
+                    setState(
+                          () {
+                        isActive = value;
+                        if (isActive) {
+                          isActiveText = 'Yes';
+                        } else {
+                          isActiveText = 'No';
+                        }
+                      },
+                    );
+                  },
                 ),
+                Text(isActiveText),
               ],
             ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              var isCreated = await updateCoupon();
-              if (!isCreated){
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Coupon update failed'),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () => _pickImage(ImageSource.gallery),
+                            child: Row(
+                              children: const [
+                                Icon(Icons.image),
+                                Text('Pick from gallery'),
+                              ],
+                            )),
+                        ElevatedButton(
+                            onPressed: () => _pickImage(ImageSource.camera),
+                            child: Row(
+                              children: const [
+                                Icon(Icons.camera_alt),
+                                Text('Pick from camera'),
+                              ],
+                            )),
+                      ]),
+                  Container(
+                    child: image != null
+                        ? Image.file(
+                      File(image!.path),
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    )
+                        : Image(image: initImage),
                   ),
-                );
-              }
-              else{
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Coupon updated successfully'),
-                  ),
-                );
-              }
-            },
-            style: ButtonStyle(
-              foregroundColor: getColor(Colors.white, Colors.green),
-              backgroundColor: getColor(Colors.green, Colors.white),
-            ),
-            child: const Text(
-              'Update',
-              style: TextStyle(
-                fontSize: 36,
+                ],
               ),
             ),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: () async {
+                var isCreated = await updateCoupon();
+                if (!isCreated){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Coupon update failed'),
+                    ),
+                  );
+                }
+                else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Coupon updated successfully'),
+                    ),
+                  );
+                }
+              },
+              style: ButtonStyle(
+                foregroundColor: getColor(Colors.white, Colors.green),
+                backgroundColor: getColor(Colors.green, Colors.white),
+              ),
+              child: const Text(
+                'Update',
+                style: TextStyle(
+                  fontSize: 36,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
