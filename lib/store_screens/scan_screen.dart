@@ -32,7 +32,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange[100],
+        backgroundColor: Colors.transparent,
         actions: [
           IconButton(
             color: Colors.white,

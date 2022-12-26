@@ -28,9 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
+          Text(
             "Login",
             style: TextStyle(
+              color: Theme.of(context).iconTheme.color,
               fontSize: 40,
               fontWeight: FontWeight.w600,
             ),
@@ -67,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
+              backgroundColor: Theme.of(context).iconTheme.color,
             ),
             onPressed: () async {
               var signInOk = await signIn();
@@ -89,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const Text(
                 "Don't have an account?",

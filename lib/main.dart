@@ -86,16 +86,18 @@ class _MyAppState extends State<MyApp> {
             darkTheme: MyThemes.darkTheme,
             home: Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.orange,
-                title: const Text(
-                  "QPon",
+                title: Text(
+                  'Qpon',
                   style: TextStyle(
+                    color: Theme.of(context).iconTheme.color,
                     fontSize: 25,
                     fontWeight: FontWeight.w600,
                     fontFamily: 'BungeeSpice',
                   ),
                 ),
                 centerTitle: true,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
               ),
               body: StreamBuilder(
                 stream: client.authStore.onChange,
