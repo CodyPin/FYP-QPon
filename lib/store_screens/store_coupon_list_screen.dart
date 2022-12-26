@@ -45,8 +45,11 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
             future: fetchStoreCoupons(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Expanded(
+                return RefreshIndicator(
+                  onRefresh: fetchStoreCoupons,
                   child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
                     itemCount: coupons.length,
                     itemBuilder: (context, index) {
                       final imageURL = client
