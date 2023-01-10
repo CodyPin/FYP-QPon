@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:qpon/store_screens/store_coupon_screen.dart';
-import '../main.dart';
+
 import './scan_screen.dart';
+import '../main.dart';
 import 'create_coupon_screen.dart';
 
 class StoreCouponListScreen extends StatefulWidget {
@@ -14,7 +14,16 @@ class StoreCouponListScreen extends StatefulWidget {
 }
 
 class _StoreCouponListState extends State<StoreCouponListScreen> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  late Future<void> initCoupons;
   List<RecordModel> coupons = [];
+
+  @override
+  void initState() {
+    super.initState();
+    initCoupons = fetchStoreCoupons();
+  }
 
   Future<bool> fetchStoreCoupons() async {
     try {
@@ -42,13 +51,14 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
             ),
           ),
           FutureBuilder(
-            future: fetchStoreCoupons(),
+            future: initCoupons,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return RefreshIndicator(
+                  key: _refreshIndicatorKey,
                   onRefresh: fetchStoreCoupons,
+
                   child: ListView.builder(
-                    scrollDirection: Axis.vertical,
                     shrinkWrap: true,
                     itemCount: coupons.length,
                     itemBuilder: (context, index) {
@@ -68,8 +78,10 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
                                 image: Image.network(
                                   imageURL,
                                   errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(Icons.card_giftcard,
-                                        size: 100);
+                                    return const Icon(
+                                      Icons.card_giftcard,
+                                      size: 100,
+                                    );
                                   },
                                 ),
                               ),
