@@ -38,10 +38,6 @@ class _CreateCouponState extends State<CreateCouponScreen> {
 
       final imageTemporary = File(tempImage.path);
 
-      Directory tempDir = await getTemporaryDirectory();
-      String tempPath = tempDir.path;
-      print(tempPath);
-
       setState(() {
         this.image = imageTemporary;
       });

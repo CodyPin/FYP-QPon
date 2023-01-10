@@ -143,8 +143,8 @@ class StoreCouponScreen extends StatelessWidget {
                     ),
                     Text(
                       DateFormat('yyyy-MM-dd hh:mm').format(
-                        DateFormat('yyyy-MM-dd hh:mm:ss.000').parse(
-                          coupon.getStringValue('expire_date'),
+                        DateFormat('yyyy-MM-dd hh:mm:ss').parse(
+                          coupon.getStringValue('expire_date')
                         ),
                       ),
                     ),
