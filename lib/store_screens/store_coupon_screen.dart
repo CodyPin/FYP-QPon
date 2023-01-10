@@ -214,7 +214,7 @@ class StoreCouponScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => QRCodeScreen(
                     title: 'Your Coupon QRCode',
-                    qrcode: coupon.getStringValue('id'),
+                    qrcode: coupon.id,
                   ),
                 ),
               );

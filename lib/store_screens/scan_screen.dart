@@ -80,7 +80,7 @@ class _ScanScreenState extends State<ScanScreen> {
             MaterialPageRoute(
               builder: (context) => QRCodeScreen(
                 title: 'Your Account QRCode',
-                qrcode: client.authStore.model.getStringValue('id'),
+                qrcode: storeId,
               ),
             ),
           );
