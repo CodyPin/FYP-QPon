@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:qpon/store_screens/scan_screen.dart';
 import '../main.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:mime/mime.dart';
 import '../utils/color.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
