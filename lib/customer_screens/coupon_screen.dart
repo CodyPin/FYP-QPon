@@ -3,34 +3,55 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pocketbase/pocketbase.dart';
 
+import '../main.dart';
 import '../qrcode_screen.dart';
 import '../utils/color.dart';
 
 class CouponScreen extends StatelessWidget {
-  const CouponScreen({Key? key, required this.coupon, required this.image}) : super(key: key);
+  const CouponScreen({Key? key, required this.coupon, required this.image, required this.store})
+      : super(key: key);
 
   final RecordModel coupon;
+  final String store;
   final Image image;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Coupon Details'),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            "Coupon Details",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-          ),
-          Hero(
-            tag: coupon.id,
-            child: image,
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxHeight: 500.0,
+            ),
+            child: Hero(
+              tag: coupon.id,
+              child: image,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Store: ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      store,
+                    ),
+                  ],
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -98,9 +119,8 @@ class CouponScreen extends StatelessWidget {
                     ),
                     Text(
                       DateFormat('yyyy-MM-dd hh:mm').format(
-                        DateFormat('yyyy-MM-dd hh:mm:ss.000').parse(
-                          coupon.getStringValue('expire_date'),
-                        ),
+                        DateFormat('yyyy-MM-dd hh:mm:ss')
+                            .parse(coupon.getStringValue('expire_date')),
                       ),
                     ),
                   ],
@@ -110,12 +130,16 @@ class CouponScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async {
+              final record = await client
+                  .collection('user_coupons')
+                  .getFirstListItem(
+                      'user = "${client.authStore.model.id}" && coupon = "${coupon.id}"');
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => QRCodeScreen(
                     title: 'Your Coupon QRCode',
-                    qrcode: coupon.getStringValue('id'),
+                    qrcode: record.id,
                   ),
                 ),
               );

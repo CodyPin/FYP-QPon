@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qpon/store_screens/scan_screen.dart';
+import 'package:qpon/store_screens/store_scan_screen.dart';
 import '../main.dart';
 import 'package:image_picker/image_picker.dart';
 import '../utils/color.dart';
@@ -38,6 +38,7 @@ class _CreateCouponState extends State<CreateCouponScreen> {
 
       setState(() {
         this.image = imageTemporary;
+        print(this.image);
       });
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
@@ -52,7 +53,6 @@ class _CreateCouponState extends State<CreateCouponScreen> {
         'amount': amountController.text.trim(),
         'expire_date': expiryDate.toString(),
         'is_active': isActive,
-        'image': '${nameController.text.trim()}.png',
         'store': storeId,
         'discount_type': selectedDiscountType,
         'use_count': 0,
@@ -84,17 +84,13 @@ class _CreateCouponState extends State<CreateCouponScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Create Coupon'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text(
-              'Create a new coupon',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
             TextField(
               controller: nameController,
               cursorColor: Colors.white,

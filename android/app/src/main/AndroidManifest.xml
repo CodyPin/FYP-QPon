@@ -2,6 +2,7 @@
     package="com.example.qpon">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Required to fetch data from the internet. -->
     <uses-permission android:name="android.permission.INTERNET" />
    <application

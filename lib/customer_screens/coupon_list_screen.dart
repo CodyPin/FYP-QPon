@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
-
 import '../main.dart';
 import 'coupon_screen.dart';
 
@@ -14,14 +13,24 @@ class CouponListScreen extends StatefulWidget {
 class _CouponListScreenState extends State<CouponListScreen> {
   List<RecordModel> coupons = [];
   List<int> couponCounts = [];
+  List<RecordModel> storeList = [];
   final userId = client.authStore.model.id;
+  var isEmpty = false;
 
   Future<bool> fetchUserCoupons() async {
     try {
       List<RecordModel> userCoupons = [];
       final response = await client.collection('user_coupons').getList(
-          page: 1, perPage: 100, filter: 'user = "$userId"',);
+            page: 1,
+            perPage: 100,
+            filter: 'user = "$userId"',
+          );
       userCoupons = response.items.toList();
+
+      if (userCoupons.isEmpty) {
+        isEmpty = true;
+        return true;
+      }
 
       var queryString = '';
       for (var i = 0; i < userCoupons.length; i++) {
@@ -34,9 +43,19 @@ class _CouponListScreenState extends State<CouponListScreen> {
         queryString += 'id="$couponId"';
       }
 
-      final couponsResponse = await client.collection('coupons')
+      final couponsResponse = await client
+          .collection('coupons')
           .getList(page: 1, perPage: 100, filter: queryString);
       coupons = couponsResponse.items.toList();
+
+      final storeResponse = await client.collection('stores').getList();
+      for(var i=0; i< coupons.length; i++){
+        for(var j=0; j<storeResponse.items.length; j++){
+          if(coupons[i].getStringValue('store') == storeResponse.items[j].id){
+            storeList.add(storeResponse.items[j]);
+          }
+        }
+      }
 
       return true;
     } catch (e) {
@@ -61,6 +80,17 @@ class _CouponListScreenState extends State<CouponListScreen> {
             future: fetchUserCoupons(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                if (isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "You don't have any coupons yet",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                }
                 return Expanded(
                   child: ListView.builder(
                     itemCount: coupons.length,
@@ -70,73 +100,85 @@ class _CouponListScreenState extends State<CouponListScreen> {
                               coupons[index].getStringValue('image'))
                           .toString();
 
-                      return GestureDetector(
-                        onTap: () {
-                          // go to this coupon's details screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CouponScreen(
-                                coupon: coupons[index],
-                                image: Image.network(
-                                  imageURL,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(Icons.card_giftcard,
-                                        size: 100);
-                                  },
+                      if(couponCounts[index]>0) {
+                        return GestureDetector(
+                          onTap: () {
+                            // go to this coupon's details screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CouponScreen(
+                                      coupon: coupons[index],
+                                      store: storeList[index].getStringValue(
+                                          'name'),
+                                      image: Image.network(
+                                        imageURL,
+                                        errorBuilder: (context, error,
+                                            stackTrace) {
+                                          return const Icon(Icons.card_giftcard,
+                                              size: 100);
+                                        },
+                                      ),
+                                    ),
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Card(
+                              child: SizedBox(
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ConstrainedBox(
+                                      constraints: const BoxConstraints(
+                                        maxHeight: 200.0,
+                                      ),
+                                      child: Hero(
+                                        tag: coupons[index].id,
+                                        child: Image.network(
+                                          imageURL,
+                                          errorBuilder:
+                                              (context, error, stackTrace) {
+                                            return const Icon(
+                                                Icons.card_giftcard,
+                                                size: 100);
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      coupons[index].getStringValue('name'),
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      coupons[index]
+                                          .getStringValue('description'),
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    Text(
+                                      "You have ${couponCounts[index]} of this coupon",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    // Image.network(imageURL),
+                                  ],
                                 ),
                               ),
                             ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            child: SizedBox(
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Hero(
-                                    tag: coupons[index].id,
-                                    child: Image.network(
-                                      imageURL,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return const Icon(Icons.card_giftcard,
-                                            size: 100);
-                                      },
-                                    ),
-                                  ),
-                                  Text(
-                                    coupons[index].getStringValue('name'),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  Text(
-                                    coupons[index]
-                                        .getStringValue('description'),
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    "You have ${couponCounts[index]} of these coupons",
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  // Image.network(imageURL),
-                                ],
-                              ),
-                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                   ),
                 );
@@ -149,17 +191,6 @@ class _CouponListScreenState extends State<CouponListScreen> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => const CreateCouponScreen(),
-      //       ),
-      //     );
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }

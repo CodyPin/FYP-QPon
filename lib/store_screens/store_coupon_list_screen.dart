@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:qpon/store_screens/store_coupon_screen.dart';
-
-import './scan_screen.dart';
+import './store_scan_screen.dart';
 import '../main.dart';
 import 'create_coupon_screen.dart';
 
@@ -16,6 +15,7 @@ class StoreCouponListScreen extends StatefulWidget {
 class _StoreCouponListState extends State<StoreCouponListScreen> {
   late Future<void> initCoupons;
   List<RecordModel> coupons = [];
+  var isEmpty = false;
 
   @override
   void initState() {
@@ -28,6 +28,10 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
       final response = await client
           .collection('coupons')
           .getList(page: 1, perPage: 100, filter: 'store = "$storeId"');
+      if(response.items.isEmpty) {
+        isEmpty = true;
+        return true;
+      }
       setState(() {
         coupons = response.items.toList();
       });
@@ -55,6 +59,17 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
               future: initCoupons,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  if(isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'You have no coupons yet, create one with the button below!',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  }
                   return ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -160,15 +175,6 @@ class _StoreCouponListState extends State<StoreCouponListScreen> {
               fetchStoreCoupons();
             },
             child: const Icon(Icons.add),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              fetchStoreCoupons();
-            },
-            child: const Icon(Icons.cloud_download_outlined),
           ),
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pocketbase/pocketbase.dart';
-import 'package:qpon/store_screens/scan_screen.dart';
+import 'package:qpon/store_screens/store_scan_screen.dart';
 import '../main.dart';
 import 'package:image_picker/image_picker.dart';
 import '../utils/color.dart';
@@ -41,7 +41,6 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
         'amount': amountController.text.trim(),
         'expire_date': expiryDate.toString(),
         'is_active': isActive,
-        'image': '${nameController.text.trim()}.png',
         'store': storeId,
         'discount_type': selectedDiscountType
       };
@@ -267,6 +266,7 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Coupon update failed'),
+                      duration: Duration(seconds: 3),
                     ),
                   );
                 }
@@ -274,6 +274,7 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Coupon updated successfully'),
+                      duration: Duration(seconds: 3),
                     ),
                   );
                   Navigator.pop(context);

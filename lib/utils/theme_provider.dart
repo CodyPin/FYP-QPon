@@ -16,7 +16,7 @@ class MyThemes {
     fontFamily: 'Merriweather',
     scaffoldBackgroundColor: Colors.grey.shade900,
     primaryColor: Colors.black,
-    iconTheme: IconThemeData(color: Colors.purple.shade200, opacity: 0.8),
+    iconTheme: IconThemeData(color: Colors.orange.shade500, opacity: 0.8),
     colorScheme: const ColorScheme.dark(),
   );
 
@@ -24,7 +24,7 @@ class MyThemes {
     fontFamily: 'Merriweather',
     scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.white,
-    iconTheme: IconThemeData(color: Colors.red.shade200, opacity: 0.8),
+    iconTheme: IconThemeData(color: Colors.orange.shade500, opacity: 0.8),
     colorScheme: const ColorScheme.light(),
   );
 }

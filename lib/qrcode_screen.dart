@@ -8,9 +8,13 @@ class QRCodeScreen extends StatelessWidget {
   final String title;
   final String qrcode;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pocketbase/src/dtos/record_model.dart';
 import 'package:intl/intl.dart';
@@ -55,179 +54,182 @@ class StoreCouponScreen extends StatelessWidget {
     );
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            "Coupon Details",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
-          ),
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxHeight: 500.0,
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Coupon Details",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
             ),
-            child: Hero(
-              tag: coupon.id,
-              child: image,
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 500.0,
+              ),
+              child: Hero(
+                tag: coupon.id,
+                child: image,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Coupon Name: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      coupon.getStringValue('name'),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Coupon Description: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      coupon.getStringValue('description'),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Coupon Type: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      coupon.getStringValue('discount_type'),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Coupon Value: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      coupon.getStringValue('amount'),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Coupon Expiration Date: ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      DateFormat('yyyy-MM-dd hh:mm').format(
-                        DateFormat('yyyy-MM-dd hh:mm:ss').parse(
-                          coupon.getStringValue('expire_date')
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Coupon Name: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Coupon Is Active? ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                      Text(
+                        coupon.getStringValue('name'),
                       ),
-                    ),
-                    Text(
-                      coupon.getStringValue('is_active'),
-                    ),
-                  ],
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Coupon Description: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        coupon.getStringValue('description'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Coupon Type: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        coupon.getStringValue('discount_type'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Coupon Value: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        coupon.getStringValue('amount'),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Coupon Expiration Date: ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        DateFormat('yyyy-MM-dd hh:mm').format(
+                          DateFormat('yyyy-MM-dd hh:mm:ss').parse(
+                            coupon.getStringValue('expire_date')
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Coupon Is Active? ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        coupon.getStringValue('is_active'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            EditCouponScreen(coupon: coupon, initImage: image),
+                      ),
+                    );
+                  },
+                  style: ButtonStyle(
+                    foregroundColor: getColor(Colors.white, Colors.blue),
+                    backgroundColor: getColor(Colors.blue, Colors.white),
+                  ),
+                  child: const Text(
+                    'Edit Coupon',
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  },
+                  style: ButtonStyle(
+                    foregroundColor: getColor(Colors.white, Colors.red),
+                    backgroundColor: getColor(Colors.red, Colors.white),
+                  ),
+                  child: const Text(
+                    'Delete Coupon?',
+                  ),
                 ),
               ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          EditCouponScreen(coupon: coupon, initImage: image),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QRCodeScreen(
+                      title: 'Your Coupon QRCode',
+                      qrcode: coupon.id,
                     ),
-                  );
-                },
-                style: ButtonStyle(
-                  foregroundColor: getColor(Colors.white, Colors.blue),
-                  backgroundColor: getColor(Colors.blue, Colors.white),
-                ),
-                child: const Text(
-                  'Edit Coupon',
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return alert;
-                    },
-                  );
-                },
-                style: ButtonStyle(
-                  foregroundColor: getColor(Colors.white, Colors.red),
-                  backgroundColor: getColor(Colors.red, Colors.white),
-                ),
-                child: const Text(
-                  'Delete Coupon?',
-                ),
-              ),
-            ],
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QRCodeScreen(
-                    title: 'Your Coupon QRCode',
-                    qrcode: coupon.id,
                   ),
-                ),
-              );
-            },
-            style: ButtonStyle(
-              foregroundColor: getColor(Colors.white, Colors.black),
-              backgroundColor: getColor(Colors.black, Colors.white),
+                );
+              },
+              style: ButtonStyle(
+                foregroundColor: getColor(Colors.white, Colors.black),
+                backgroundColor: getColor(Colors.black, Colors.white),
+              ),
+              child: const Text(
+                'QR code',
+              ),
             ),
-            child: const Text(
-              'QR code',
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

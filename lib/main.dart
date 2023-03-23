@@ -9,7 +9,7 @@ import 'customer_screens/home_screen.dart';
 import 'customer_screens/wallet_screen.dart';
 import 'login_screen.dart';
 import 'setting_screen.dart';
-import 'store_screens/scan_screen.dart';
+import 'store_screens/store_scan_screen.dart';
 import 'store_screens/store_coupon_list_screen.dart';
 
 Future main() async {
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   ];
 
   final storePages = [
-    const ScanScreen(),
+    const StoreScanScreen(),
     const StoreCouponListScreen(),
     const SettingScreen()
   ];
