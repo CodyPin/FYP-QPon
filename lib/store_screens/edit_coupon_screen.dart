@@ -46,15 +46,16 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
       };
 
       if (image?.path != null) {
+        final multipartImage = await http.MultipartFile.fromPath(
+          'image',
+          image!.path,
+          filename: image!.path,
+        );
         await client.collection('coupons').update(
           widget.coupon.id,
           body: body,
           files: [
-            http.MultipartFile.fromString(
-              'image',
-              'png',
-              filename: image!.path,
-            ),
+            multipartImage,
           ],
         );
       } else {
@@ -96,17 +97,13 @@ class _EditCouponScreenState extends State<EditCouponScreen> {
     ImageProvider initImage = widget.initImage.image;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Coupon'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Text(
-              'Update Coupon',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
             TextField(
               controller: nameController,
               cursorColor: Colors.white,

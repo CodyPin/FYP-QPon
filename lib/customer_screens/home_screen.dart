@@ -43,7 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
       userCoupons = response.items.toList();
 
       if (userCoupons.isEmpty) {
-        isEmpty = true;
+        setState(() {
+          isEmpty = true;
+          isLoading = false;
+        });
         return true;
       }
 
@@ -76,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         var expiryDate = DateTime.parse(DateFormat('yyyy-MM-dd hh:mm').format(
             DateFormat('yyyy-MM-dd hh:mm:ss')
                 .parse(coupons[i].getStringValue('expire_date'))));
-        if (expiryDate.compareTo(DateTime.now()) <= 0) {
+        if (expiryDate.compareTo(DateTime.now()) > 0) {
           sevenDayCoupons.add(coupons[i]);
         }
       }
@@ -161,13 +164,32 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (isEmpty) {
-              return const Center(
-                child: Text(
-                  "Go get some coupons!",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Welcome $username!",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const Text(
+                      "You do not have any coupons yet!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const Text(
+                      "Go get some coupons!",
+                      style:  TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               );
             }

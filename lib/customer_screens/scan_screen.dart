@@ -77,7 +77,6 @@ class _ScanScreenState extends State<ScanScreen> {
       RecordModel response;
 
       try {
-        print(code);
         response = await client.collection('users').getOne(code);
       } catch (e) {
         HapticFeedback.lightImpact();

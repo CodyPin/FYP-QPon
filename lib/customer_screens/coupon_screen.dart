@@ -8,7 +8,11 @@ import '../qrcode_screen.dart';
 import '../utils/color.dart';
 
 class CouponScreen extends StatelessWidget {
-  const CouponScreen({Key? key, required this.coupon, required this.image, required this.store})
+  const CouponScreen(
+      {Key? key,
+      required this.coupon,
+      required this.image,
+      required this.store})
       : super(key: key);
 
   final RecordModel coupon;
