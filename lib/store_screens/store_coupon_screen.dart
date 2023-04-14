@@ -29,6 +29,15 @@ class StoreCouponScreen extends StatelessWidget {
       ),
       onPressed: () async {
         try {
+          var listOfUserCoupons = await client.collection('user_coupons').getList(
+            page:1,
+            perPage: 1000,
+            filter: 'coupon = "${coupon.id}"',
+          );
+          for (var userCoupon in listOfUserCoupons.items) {
+            await client.collection('user_coupons').delete(userCoupon.id);
+          }
+
           await client.collection('coupons').delete(coupon.id);
         } catch (e) {
           print(e);
