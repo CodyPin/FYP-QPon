@@ -105,148 +105,176 @@ class _CouponSelectScreenState extends State<CouponSelectScreen> {
           FutureBuilder(
             future: initCoupons,
             builder: (context, snapshot) {
-              if (isEmpty) {
-                return Center(
-                  child: Text(
-                    'You don\'t have any coupons yet! \n There is nothing to give to ${widget.username}!',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+              if (snapshot.hasData) {
+                if (isEmpty) {
+                  return Center(
+                    child: Text(
+                      'You don\'t have any coupons yet! \n There is nothing to give to ${widget.username}!',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                );
-              }
-              return Column(
-                children: [
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: coupons.length,
-                    itemBuilder: (context, index) {
-                      final imageURL = client
-                          .getFileUrl(coupons[index],
-                              coupons[index].getStringValue('image'))
-                          .toString();
-
-                      return Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Card(
-                          child: SizedBox(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    maxHeight: 200,
-                                  ),
-                                  child: Image.network(
-                                    imageURL,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(
-                                        Icons.card_giftcard,
-                                        size: 50,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Text(
-                                  coupons[index].getStringValue('name'),
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  () {
-                                    if (coupons[index]
-                                            .getStringValue('discount_type') ==
-                                        'percent') {
-                                      return 'Discount: ${coupons[index].getStringValue('discount')}%';
-                                    } else {
-                                      return 'Discount: \$${coupons[index].getStringValue('amount')}';
-                                    }
-                                  }(),
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        if (couponCount[index] > 0) {
-                                          setState(
-                                            () {
-                                              couponCount[index]--;
-                                            },
-                                          );
-                                        }
-                                      },
-                                      icon: const Icon(Icons.remove),
+                  );
+                }
+                return Column(
+                  children: [
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: coupons.length,
+                      itemBuilder: (context, index) {
+                        final imageURL = client
+                            .getFileUrl(coupons[index],
+                                coupons[index].getStringValue('image'))
+                            .toString();
+                        if (couponAmount[index] == 0) return const SizedBox();
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Card(
+                            child: SizedBox(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                      maxHeight: 200,
                                     ),
-                                    Text(
-                                      couponCount[index].toString(),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
+                                    child: Image.network(
+                                      imageURL,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return const Icon(
+                                          Icons.card_giftcard,
+                                          size: 50,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  Text(
+                                    coupons[index].getStringValue('name'),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    () {
+                                      if (coupons[index].getStringValue(
+                                              'discount_type') ==
+                                          'percent') {
+                                        return 'Discount: ${coupons[index].getStringValue('discount')}%';
+                                      } else {
+                                        return 'Discount: \$${coupons[index].getStringValue('amount')}';
+                                      }
+                                    }(),
+                                    style: const TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          if (couponCount[index] > 0) {
+                                            setState(
+                                              () {
+                                                couponCount[index]--;
+                                              },
+                                            );
+                                          }
+                                        },
+                                        icon: const Icon(Icons.remove),
                                       ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        if (couponCount[index] <
-                                            couponAmount[index]) {
-                                          setState(() {
-                                            couponCount[index]++;
-                                          });
-                                        }
-                                      },
-                                      icon: const Icon(Icons.add),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                      Text(
+                                        couponCount[index].toString(),
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          if (couponCount[index] <
+                                              couponAmount[index]) {
+                                            setState(() {
+                                              couponCount[index]++;
+                                            });
+                                          }
+                                        },
+                                        icon: const Icon(Icons.add),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      isLoading = true;
+                        );
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        isLoading = true;
 
+                        final response = await client
+                            .collection('user_coupons')
+                            .getList(
+                                page: 1,
+                                perPage: 100,
+                                filter: 'user = "${widget.qrcode}"');
 
-                      final response = await client
-                          .collection('user_coupons')
-                          .getList(
-                              page: 1,
-                              perPage: 100,
-                              filter: 'user = "${widget.qrcode}"');
+                        final receiverCoupons = response.items.toList();
 
-                      final receiverCoupons = response.items.toList();
+                        for (var i = 0; i < coupons.length; i++) {
+                          if (couponCount[i] > 0) {
+                            bool created = false;
+                            for (var j = 0; j < receiverCoupons.length; j++) {
+                              final amount =
+                                  receiverCoupons[j].getIntValue('amount') +
+                                      couponCount[i];
 
-                      for (var i = 0; i < coupons.length; i++) {
-                        if (couponCount[i] > 0) {
-                          bool created = false;
-                          for (var j = 0; j < receiverCoupons.length; j++) {
-                            final amount =
-                                receiverCoupons[j].getIntValue('amount') +
-                                    couponCount[i];
+                              final body = <String, dynamic>{
+                                'user': widget.qrcode,
+                                'coupon': coupons[i].id,
+                                'amount': amount,
+                              };
 
-                            final body = <String, dynamic>{
-                              'user': widget.qrcode,
-                              'coupon': coupons[i].id,
-                              'amount': amount,
-                            };
+                              if (receiverCoupons[j].getStringValue('coupon') ==
+                                  coupons[i].id) {
+                                await client.collection('user_coupons').update(
+                                      receiverCoupons[j].id,
+                                      body: body,
+                                    );
 
-                            if (receiverCoupons[j].getStringValue('coupon') ==
-                                coupons[i].id) {
-                              await client.collection('user_coupons').update(
-                                receiverCoupons[j].id,
-                                body: body,
-                              );
+                                final updateBody = <String, dynamic>{
+                                  'user': userId,
+                                  'coupon': coupons[i].id,
+                                  'amount':
+                                      userCoupons[i].getIntValue('amount') -
+                                          couponCount[i],
+                                };
+                                await client.collection('user_coupons').update(
+                                      userCoupons[i].id,
+                                      body: updateBody,
+                                    );
+                                created = true;
+                                break;
+                              }
+                            }
+                            if (!created) {
+                              final body = <String, dynamic>{
+                                'user': widget.qrcode,
+                                'coupon': coupons[i].id,
+                                'amount': couponCount[i],
+                              };
+
+                              await client.collection('user_coupons').create(
+                                    body: body,
+                                  );
 
                               final updateBody = <String, dynamic>{
                                 'user': userId,
@@ -255,50 +283,31 @@ class _CouponSelectScreenState extends State<CouponSelectScreen> {
                                     couponCount[i],
                               };
                               await client.collection('user_coupons').update(
-                                userCoupons[i].id,
-                                body: updateBody,
-                              );
-                              created = true;
-                              break;
+                                    userCoupons[i].id,
+                                    body: updateBody,
+                                  );
                             }
                           }
-                          if (!created) {
-                            final body = <String, dynamic>{
-                              'user': widget.qrcode,
-                              'coupon': coupons[i].id,
-                              'amount': couponCount[i],
-                            };
-
-                            await client.collection('user_coupons').create(
-                              body: body,
-                            );
-
-                            final updateBody = <String, dynamic>{
-                              'user': userId,
-                              'coupon': coupons[i].id,
-                              'amount': userCoupons[i].getIntValue('amount') -
-                                  couponCount[i],
-                            };
-                            await client.collection('user_coupons').update(
-                              userCoupons[i].id,
-                              body: updateBody,
-                            );
-                          }
                         }
-                      }
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Coupon(s) gave to ${widget.username}'),
-                          duration: const Duration(seconds: 5),
-                        ),
-                      );
-                      widget.closeScreen();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Confirm'),
-                  ),
-                ],
-              );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content:
+                                Text('Coupon(s) gave to ${widget.username}'),
+                            duration: const Duration(seconds: 5),
+                          ),
+                        );
+                        widget.closeScreen();
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Confirm'),
+                    ),
+                  ],
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             },
           ),
         ]),
